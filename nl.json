@@ -1,0 +1,8 @@
+{
+  "config": {
+    "bin": "/usr/bin"
+  },
+  "apps": {
+    "gnome-terminal": " --working-directory /home/dampe/git/nimbus"
+  }
+}
