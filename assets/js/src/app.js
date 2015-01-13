@@ -323,6 +323,7 @@
       case "cbr":
 
         //Deflate archive.
+        alert(file.name);
 
         break;
     }

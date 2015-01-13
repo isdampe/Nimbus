@@ -429,6 +429,7 @@ function isEven(n) {
       case "cbr":
 
         //Deflate archive.
+        alert(file.name);
 
         break;
     }
