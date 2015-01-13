@@ -21,6 +21,12 @@
     enhance: 0,
     lastEnhance: 0
   };
+  var supportedFormats = [
+    {
+      type: "cbr",
+      archive: "rar"
+    }
+  ];
   var comic = {
     title: "Futurama 01",
     pageCount: 8,
@@ -291,7 +297,61 @@
 
   this.loadFileDialogue = function(){
     alert("Rquers file");
-  }
+  };
+
+  this.handleFile = function(file) {
+
+    var ext;
+
+    ext = nimbus.checkFormat(file.name);
+
+    //Check if format is okay.
+    if ( ext === false ) {
+      alert("Invalid file format.");
+      return;
+    }
+
+    nimbus.extractArchive(file, ext);
+
+  };
+
+  this.extractArchive = function(file, ext) {
+
+    var archiveHandle, archiveFileList = [];
+
+    switch(ext) {
+      case "cbr":
+
+        //Deflate archive.
+
+        break;
+    }
+
+  };
+
+  this.checkFormat = function(filename) {
+
+    var re, ext, result, i, max;
+
+    re = /(?:\.([^.]+))?$/;
+    ext = re.exec(filename)[1].toLowerCase();
+    result = false;
+    max = supportedFormats.length;
+
+    for ( i=0; i<max; i++ ) {
+      if ( ext === supportedFormats[i].type ) {
+        result = true;
+        break;
+      }
+    }
+
+    if ( result === true ) {
+      return ext;
+    } else {
+      return false;
+    }
+
+  };
 
   //Hooks.
   window.onresize = function(){
@@ -388,6 +448,25 @@
   });
   document.body.addEventListener("dragend", function(e){
     removeClass(elements.dragDropOverlay, "active");
+  });
+  document.body.addEventListener("drop", function(e){
+
+    var fileList;
+
+    removeClass(elements.dragDropOverlay, "active");
+
+    if ( typeof e.dataTransfer.files === "undefined" ) {
+      return;
+    }
+
+    fileList = e.dataTransfer.files;
+
+    if ( fileList.length > 1 ) {
+      return;
+    }
+
+    nimbus.handleFile(fileList[0]);
+
   });
 
   window.nimbus = this;
