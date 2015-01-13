@@ -4,9 +4,13 @@
   box-sizing: border-box;
 }
 
+html, body {
+  height: 100%;
+}
+
 body {
   margin: 0;
-  font-family: 'Oxygen', sans-serif;
+  font-family: 'Open Sans', Open sans, Arial, Helvetica, sans-serif;
   font-size: 15px;
   background: #eee;
   color: #ccc;
@@ -18,8 +22,14 @@ body {
   background-image: radial-gradient(circle farthest-corner at center, #dddddd 0%, #eeeeee 100%);
 }
 
+body.splash {
+  background: url("../media/logo-512.png") center center no-repeat #e11e22;
+  height: 100%;
+}
+
 .viewport {
   position: absolute;
+  z-index: 7;
   width: 100%;
   height: 100%;
   left: 0;
@@ -222,6 +232,52 @@ body {
 
 }
 
+.drag-drop-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  display: none;
+
+  .modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    margin: auto;
+    width: 50%;
+    height: 50%;
+    padding: 40px;
+    border: 5px dashed #fff;
+    text-align: center;
+    font-size: 72px;
+    text-transform: uppercase;
+
+    .text {
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+}
+
+.file-select {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 8;
+  opacity: 0;
+  cursor: pointer;
+}
+
 .active {
   display: block;
+}
+.hidden {
+  display: none!important;
 }

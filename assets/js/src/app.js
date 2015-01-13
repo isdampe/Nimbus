@@ -8,7 +8,9 @@
     brightnessOverlay: document.getElementById("brightness-overlay"),
     brightnessBall: document.getElementById("slider-ball"),
     brightnessContent: document.getElementById("brightness-content"),
-    beautifyLevel: document.getElementById("beautify-level")
+    beautifyLevel: document.getElementById("beautify-level"),
+    dragDropOverlay: document.getElementById("drag-drop-overlay"),
+    fileSelect: document.getElementById("file-select")
   };
   var config = {
     width: Math.max(elements.viewport.clientWidth, elements.viewport.innerWidth || 0),
@@ -42,6 +44,9 @@
   this.loadComic = function(){
 
     //Fetch comic data.
+    removeClass(document.body, "splash");
+    removeClass(elements.reader, "hidden");
+    addClass(elements.fileSelect, "hidden");
 
     //Activate comic.
     config.comicActive = 1;
@@ -202,24 +207,27 @@
   };
 
   this.checkSize = function(){
+
     config.width = Math.max(elements.viewport.clientWidth, elements.viewport.innerWidth || 0);
 
-    if ( config.width > config.pageBreakpoint ) {
-      config.activePages = 2;
+    if ( config.comicActive === 1 ) {
+      if ( config.width > config.pageBreakpoint ) {
+        config.activePages = 2;
 
-      if ( comic.currentPage > 1 ) {
+        if ( comic.currentPage > 1 ) {
 
-        if ( isEven(comic.currentPage) ) {
-          comic.currentPage -= 1;
+          if ( isEven(comic.currentPage) ) {
+            comic.currentPage -= 1;
+          }
         }
+
+      } else {
+        config.activePages = 1;
+
       }
 
-    } else {
-      config.activePages = 1;
-
+      nimbus.loadPage();
     }
-
-    nimbus.loadPage();
 
   };
 
@@ -280,6 +288,10 @@
     }
 
   };
+
+  this.loadFileDialogue = function(){
+    alert("Rquers file");
+  }
 
   //Hooks.
   window.onresize = function(){
@@ -367,11 +379,22 @@
     nimbus.brightnessOff();
   };
 
+  //Alow drag drop.
+  document.body.addEventListener("dragover", function(e){
+    addClass(elements.dragDropOverlay, "active");
+    window.setTimeout(function(){
+      removeClass(elements.dragDropOverlay, "active");
+    }, 5000);
+  });
+  document.body.addEventListener("dragend", function(e){
+    removeClass(elements.dragDropOverlay, "active");
+  });
+
   window.nimbus = this;
 
   window.onload = function(){
-    nimbus.loadComic();
+    //nimbus.loadComic();
     nimbus.checkSize();
-  }
+  };
 
 })(window);
